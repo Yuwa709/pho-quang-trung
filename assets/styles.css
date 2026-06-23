@@ -1,0 +1,99 @@
+/* ── Phở Quang Trung — shared styles ── */
+:root { --ease-spring: cubic-bezier(.22,1,.36,1); }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { background-color: #FAF4EA; }
+
+/* Skip link (WCAG 2.4.1 Bypass Blocks) — visible on keyboard focus */
+.skip-link {
+  position: absolute; left: 12px; top: -100px; z-index: 100;
+  background: #211913; color: #FAF4EA; padding: 10px 16px; border-radius: 8px;
+  font-weight: 600; font-size: 15px; box-shadow: 0 8px 24px -8px rgba(0,0,0,.4);
+  transition: top .25s var(--ease-spring);
+}
+.skip-link:focus { top: 12px; outline: 2px solid #FAF4EA; outline-offset: 2px; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* Grain / paper texture overlay */
+.grain::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  opacity: .045; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Warm layered radial wash */
+.warm-wash {
+  background-image:
+    radial-gradient(60% 50% at 12% 0%, rgba(217,160,82,.22), transparent 70%),
+    radial-gradient(50% 45% at 95% 8%, rgba(178,58,40,.14), transparent 65%),
+    radial-gradient(70% 60% at 50% 110%, rgba(60,86,68,.12), transparent 70%);
+}
+
+.display-tight { letter-spacing: -0.035em; line-height: .98; }
+.body-leading { line-height: 1.75; }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--ease-spring), transform .8s var(--ease-spring); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity:1; transform:none; transition:none; }
+  html { scroll-behavior: auto !important; }
+  .marquee { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important; scroll-behavior: auto !important;
+  }
+}
+
+/* Marquee */
+.marquee { display: flex; width: max-content; animation: scrollx 38s linear infinite; }
+.marquee:hover, .marquee:focus-within { animation-play-state: paused; }
+@keyframes scrollx { to { transform: translateX(-50%); } }
+.marquee-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+
+/* Image treatment */
+.img-treat { position: relative; overflow: hidden; }
+.img-treat img { transition: transform 1.2s var(--ease-spring); }
+.img-treat:hover img { transform: scale(1.05); }
+.img-treat::after {
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(to top, rgba(33,25,19,.55), transparent 55%);
+  mix-blend-mode: multiply; pointer-events:none;
+}
+
+/* Buttons */
+.btn { transition: transform .35s var(--ease-spring), box-shadow .35s var(--ease-spring), background-color .25s ease, color .25s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible, a:focus-visible, button:focus-visible { outline: 2px solid #B23A28; outline-offset: 3px; border-radius: 4px; }
+
+.underline-grow { background-image: linear-gradient(#B23A28,#B23A28); background-size: 0% 1.5px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .4s var(--ease-spring); }
+.underline-grow:hover { background-size: 100% 1.5px; }
+
+/* Nav links + active page state */
+.nav-link { position: relative; }
+.nav-link[aria-current="page"] { color: #B23A28; }
+.nav-link[aria-current="page"]::after {
+  content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px; background:#B23A28; border-radius:2px;
+}
+
+.menu-card { transition: transform .4s var(--ease-spring), box-shadow .4s var(--ease-spring), border-color .3s ease; }
+.menu-card:hover { transform: translateY(-4px); box-shadow: 0 2px 6px rgba(43,28,18,.06), 0 24px 48px -16px rgba(140,43,29,.22); }
+
+.filter-pill { transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .25s var(--ease-spring); padding-left:1.05rem; padding-right:1.05rem; }
+.filter-pill[aria-pressed="true"] { background:#211913; color:#FAF4EA; border-color:#211913; }
+
+.hide { display: none !important; }
+
+/* Menu items */
+.menu-item { display:flex; flex-direction:column; gap:.15rem; padding-bottom:1.05rem; border-bottom:1px dashed rgba(33,25,19,.14); }
+.menu-item .en { font-weight:600; font-size:15.5px; color:#211913; line-height:1.35; }
+.menu-item .vi { font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:#B23A28; }
+
+/* Mobile menu */
+#mobile-menu { transition: opacity .35s var(--ease-spring), transform .35s var(--ease-spring); transform-origin: top; }
+#mobile-menu[hidden] { display:none; }
+#mobile-menu.closing { opacity:0; transform: translateY(-8px); }
+.burger span { transition: transform .3s var(--ease-spring), opacity .2s ease; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+.burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }

@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Dev-only QA screenshots (not part of the site)
+temporary screenshots/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs & temp
+*.log
